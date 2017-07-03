@@ -1,0 +1,123 @@
+<div class="row">
+  <app-header></app-header>
+</div>
+
+<div class="container">
+
+  <form (ngSubmit)="sendEmailSubmit(sendEmailForm.value,sendEmailForm.valid)" [formGroup]="sendEmailForm" novalidate autocomplete="off">
+
+    <div class="form-group"
+         [ngClass]="{
+        'has-danger': to.invalid && (to.dirty || to.touched),
+        'has-success': to.valid && (to.dirty || to.touched)
+      }">
+
+      <label class="required">To Email List:</label>
+
+      <input type="text" class="form-control input-sm" formControlName="to">
+
+      <small [hidden]="to.valid || (to.pristine && !submitted)" class="text-danger">
+        {{ toAlert }}
+      </small>
+
+    </div>
+
+    <div class="form-group"
+         [ngClass]="{
+        'has-danger': cc.invalid && (cc.dirty || cc.touched),
+        'has-success': cc.valid && (cc.dirty || cc.touched)
+      }">
+
+      <label>Cc Email List:</label>
+
+      <input type="text" class="form-control input-sm" formControlName="cc">
+
+      <small [hidden]="cc.valid || (cc.pristine && !submitted)" class="text-danger">
+        {{ ccAlert }}
+      </small>
+
+    </div>
+
+    <div class="form-group"
+         [ngClass]="{
+        'has-danger': bcc.invalid && (bcc.dirty || bcc.touched),
+        'has-success': bcc.valid && (bcc.dirty || bcc.touched)
+      }">
+
+      <label>Bcc Email List:</label>
+
+      <input type="text" class="form-control input-sm" formControlName="bcc">
+
+      <small [hidden]="bcc.valid || (bcc.pristine && !submitted)" class="text-danger">
+        {{ bccAlert }}
+      </small>
+    </div>
+
+    <div class="form-group"
+         [ngClass]="{
+        'has-danger': subject.invalid && (subject.dirty || subject.touched),
+        'has-success': subject.valid && (subject.dirty || subject.touched)
+      }">
+
+      <label class="required">Email Subject :</label>
+
+      <input type="text" class="form-control input-sm" formControlName="subject">
+
+      <small [hidden]="subject.valid || (subject.pristine && !submitted)" class="text-danger">
+        {{ subjectAlert }}
+      </small>
+    </div>
+
+    <div class="form-group"
+         [ngClass]="{
+        'has-danger': message.invalid && (message.dirty || message.touched),
+        'has-success': message.valid && (message.dirty || message.touched)
+      }">
+
+      <label class="required">Email :</label>
+
+      <!--<input type="text" class="form-control input-sm" formControlName="subject">-->
+      <textarea class="form-control input-sm" formControlName="message"></textarea>
+
+      <small [hidden]="message.valid || (message.pristine && !submitted)" class="text-danger">
+        {{ messageAlert }}
+      </small>
+    </div>
+
+    <!--<button type="submit" class="btn btn-info form-control">Submit</button>-->
+
+    <br/>
+    <br/>
+
+    <!--<div class="form-group">
+      <div [ngClass]="{
+        'has-danger': !isEmptyObject(emailSent),
+        'has-success': isEmptyObject(emailSent)
+      }">
+        <div>{{emailSent}}</div>
+      </div>
+    </div>-->
+
+    <div class="form-group">
+      <div [ngSwitch]="emailSentStatus">
+        <div *ngSwitchCase="'SUCCESS'">
+          <div class="alert alert-success"><strong>{{emailSent}}</strong></div>
+          <input type="button" class="btn btn-info form-control" value="Send Another New Email" onclick="location.href = '/';">
+        </div>
+        <div *ngSwitchCase="'WARN'">
+          <div class="alert alert-warning"><strong>{{emailSent}}</strong></div>
+          <input type="button" class="btn btn-info form-control" value="Send Another New Email" onclick="location.href = '/';">
+        </div>
+        <div *ngSwitchCase="'FAIL'">
+          <div class="alert alert-danger"><strong>{{emailSent}}</strong></div>
+          <input type="button" class="btn btn-info form-control" value="Send Another New Email" onclick="location.href = '/';">
+        </div>
+        <div *ngSwitchCase="''">
+          <button type="submit" class="btn btn-info form-control">Submit</button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+</div>
