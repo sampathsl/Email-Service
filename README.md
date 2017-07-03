@@ -57,7 +57,8 @@ What things you need to install the software and how to setup your system
 ## Development and further improvements
 	
 	Backend and frontend projects can run separately and can develop them separately.
-	To test both the systems together 
+	To test both the systems together first need to build frontend project with ng build -prod command.
+	After successful build copy generated /dist folder contents and replace backend project static folder contents.
 
 ## Running the tests
 
