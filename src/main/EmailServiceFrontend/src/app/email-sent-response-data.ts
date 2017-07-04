@@ -1,5 +1,5 @@
 /**
- * Created by SAMPATH on 6/14/2017.
+ * Created by SAMPATH on 7/2/2017.
  */
 
 export class EmailSentResponseData {

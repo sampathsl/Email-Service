@@ -4,6 +4,10 @@
 
 <div class="container">
 
+  <div class="curtain" *ngIf="loading">
+    <img src="assets/busy.gif" class="ajax-loader"/>
+  </div>
+
   <form (ngSubmit)="sendEmailSubmit(sendEmailForm.value,sendEmailForm.valid)" [formGroup]="sendEmailForm" novalidate autocomplete="off">
 
     <div class="form-group"

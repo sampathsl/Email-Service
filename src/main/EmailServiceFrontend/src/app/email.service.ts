@@ -22,7 +22,7 @@ export class EmailService {
     return this.http.post(this.mainURI, email);
   }
 
-  varifySendEmail(authCode: AuthCode, checked: boolean) {
+  verifySendEmail(authCode: AuthCode, checked: boolean) {
     if (checked) {
       return this.http.post(this.mainURI + '/varify', authCode)
         .map(

@@ -39,6 +39,8 @@ export class EmailComponent implements OnInit {
   emailSent: String = '';
   emailSentStatus: String = '';
 
+  loading: Boolean = false;
+
   @Input() dueDateText: FormControl;
   dueDateDate: Date;
   @Input() resolvedDateText: FormControl;
@@ -112,8 +114,9 @@ export class EmailComponent implements OnInit {
 
       this.emailSent = '';
       this.emailSentStatus = '';
+      this.loading = true;
 
-        this.emailService.varifySendEmail(this.authCode, isValidForm)
+        this.emailService.verifySendEmail(this.authCode, isValidForm)
         .subscribe(
           (data: any) => {
 
@@ -142,15 +145,19 @@ export class EmailComponent implements OnInit {
                     if ( this.emailSentResponseData.emailSent != null && this.emailSentResponseData.emailSent === 'SUCCESS' ) {
                       this.emailSentStatus = 'SUCCESS';
                       this.emailSent = 'Your email has been successfully sent!';
+                      this.loading = false;
                     } else if ( this.emailSentResponseData.emailSent != null && this.emailSentResponseData.emailSent === 'FAIL' ) {
                       this.emailSentStatus = 'FAIL';
                       this.emailSent = 'Your email has not sent!';
+                      this.loading = false;
                     } else if ( this.emailSentResponseData.emailSent != null && this.emailSentResponseData.emailSent === 'SESSION_ERROR' ) {
                       this.emailSentStatus = 'WARN';
                       this.emailSent = 'Error! Your session has expired!';
+                      this.loading = false;
                     } else {
                       this.emailSentStatus = 'FAIL';
                       this.emailSent = 'Error occurred! Please contact system administrator!';
+                      this.loading = false;
                     }
 
                   },
@@ -158,10 +165,11 @@ export class EmailComponent implements OnInit {
                      // console.log(error);
                     this.emailSentStatus = 'FAIL';
                     this.emailSent = 'Error occurred! Please contact system administrator!';
-                    console.log('this.emailSent ::' + this.emailSent);
+                    this.loading = false;
                   },
                   function () {
                     // console.log('finally');
+                    this.loading = false;
                   }
                 );
 
@@ -171,9 +179,11 @@ export class EmailComponent implements OnInit {
             // console.log(error);
             this.emailSentStatus = 'WARN';
             this.emailSent = 'Error! Your session has expired!';
+            this.loading = false;
           },
           function () {
             // console.log('finally');
+            this.loading = false;
           }
         );
 

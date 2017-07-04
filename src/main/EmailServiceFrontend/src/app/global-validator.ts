@@ -1,7 +1,8 @@
+import {FormControl} from '@angular/forms';
+
 /**
  * Created by SAMPATH on 7/2/2017.
  */
-import {FormControl} from '@angular/forms';
 
 export class GlobalValidator {
 
