@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.lyke.email.service.adapter.AWSSesService;
 import com.lyke.email.service.adapter.MailGunService;
 import com.lyke.email.service.adapter.ManDrillService;
 import com.lyke.email.service.adapter.SendGridService;
@@ -138,6 +139,8 @@ public class EmailServiceController {
 				} else if (new ServiceProvider(new SendGridService()).executeStrategy(entityDTOMapper.convertEmailToEntity(emailDTO))) {
 					return new ResponseEntity<EmailSentStatusDTO>(new EmailSentStatusDTO("SUCCESS"), HttpStatus.OK);
 				} else if (new ServiceProvider(new ManDrillService()).executeStrategy(entityDTOMapper.convertEmailToEntity(emailDTO))) {
+					return new ResponseEntity<EmailSentStatusDTO>(new EmailSentStatusDTO("SUCCESS"), HttpStatus.OK);
+				} else if (new ServiceProvider(new AWSSesService()).executeStrategy(entityDTOMapper.convertEmailToEntity(emailDTO))) {
 					return new ResponseEntity<EmailSentStatusDTO>(new EmailSentStatusDTO("SUCCESS"), HttpStatus.OK);
 				} else {
 					return new ResponseEntity<EmailSentStatusDTO>(new EmailSentStatusDTO("FAIL"), HttpStatus.OK);
