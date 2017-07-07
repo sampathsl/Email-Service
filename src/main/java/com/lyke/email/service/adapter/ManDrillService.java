@@ -4,11 +4,6 @@
 
 package com.lyke.email.service.adapter;
 
-import java.util.List;
-
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
 import com.ecwid.mailchimp.MailChimpClient;
 import com.ecwid.mailchimp.MailChimpObject;
 import com.ecwid.mailchimp.method.v1_3.campaign.CampaignCreateMethod;
@@ -19,6 +14,10 @@ import com.ecwid.mailchimp.method.v1_3.list.ListsResult;
 import com.google.gson.Gson;
 import com.lyke.email.service.domain.EmailData;
 import com.lyke.email.service.util.EmailContent;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import java.util.List;
 
 /**
  * @author SAMPATH
@@ -29,26 +28,28 @@ public class ManDrillService implements EmailServiceProvider {
 
 	private static final Logger logger = LogManager.getLogger(ManDrillService.class);
 
+    String API_KEY = ""; //TODO add key here
+
 	@Override
 	public boolean sendEmail(EmailData email) {
 		try {
 
 			MailChimpClient mailChimpClient = new MailChimpClient();
 			ListsMethod listsMethod = new ListsMethod();
-			listsMethod.apikey = ""; //TODO add key here
+			listsMethod.apikey = API_KEY;
 			ListsResult listsResult = mailChimpClient.execute(listsMethod);
 			// ListInformation data = listsResult.data.get(0);
 
 			CampaignCreateMethod campaignCreateMethod = new CampaignCreateMethod();
-			campaignCreateMethod.apikey = "";//TODO add key here
+			campaignCreateMethod.apikey = API_KEY;
 			campaignCreateMethod.type = CampaignType.regular;
 			MailChimpObject options = new MailChimpObject();
 
 			campaignCreateMethod.options = new MailChimpObject();
 			options.put("list_id", "");//TODO add list id here
 			options.put("subject", email.getSubject());
-			options.put("from_email", "sampath_bt@yahoo.com");
-			options.put("from_name", "Sampath AAAA");
+			options.put("from_email", "any email address");
+			options.put("from_name", "TODO TEST");
 			options.put("authenticate", true);
 			options.put("title", "Test Work");
 			options.put("tracking", "");
@@ -77,7 +78,7 @@ public class ManDrillService implements EmailServiceProvider {
 			String campaignId = mailChimpClient.execute(campaignCreateMethod);
 
 			CampaignSendNowMethod campaignSendNowMethod = new CampaignSendNowMethod();
-			campaignSendNowMethod.apikey = "";//TODO add key here
+			campaignSendNowMethod.apikey = API_KEY;
 			campaignSendNowMethod.cid = campaignId;
 			Boolean status = mailChimpClient.execute(campaignSendNowMethod);
 
