@@ -32,7 +32,7 @@ export class EmailComponent implements OnInit {
   toAlert: String = 'Please enter to email address(es) with comma separated!';
   ccAlert: String = 'Please enter CC email address(es) with comma separated!';
   bccAlert: String = 'Please enter BCC email address(es) with comma separated!';
-  mimeTypeAlert: String = 'Please enter the email content type!';
+  /*mimeTypeAlert: String = 'Please enter the email content type!';*/
   subjectAlert: String = 'Valid subject is required - Subject should have 5 - 50 characters!';
   messageAlert: String = 'Email message is required! - Email message should have 5 - 500 characters!';
 

@@ -1,10 +1,6 @@
 package com.lyke.email.service;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.Date;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,16 +15,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lyke.email.service.domain.EmailServiceAuth;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class EmailServiceClientVarifyTest {
+public class EmailServiceClientVerifyTest {
 
 	private ObjectMapper objectMapper = new ObjectMapper();
-	private final String URI = "/api/v1/email-send/varify";
+	private final String URI = "/api/v1/email-send/verify";
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -46,16 +42,8 @@ public class EmailServiceClientVarifyTest {
 	public void adminCanCreateOrganization() throws Exception {
 
 		this.mockMvc.perform(post(URI).contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(getSampleClientEmailServiceAuthDTO()))
+				.content(objectMapper.writeValueAsString(new SampleEmailServiceAuthDTO().getEmailServiceAuth()))
 				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
-	}
-
-	private EmailServiceAuth getSampleClientEmailServiceAuthDTO() {
-		EmailServiceAuth emailServiceAuth = new EmailServiceAuth();
-		emailServiceAuth.setUserName("test");
-		emailServiceAuth.setKey("c3Nzc3NzYWFhYWFhYTEyMzQ1");
-		emailServiceAuth.setCreationDate(new Date());
-		return emailServiceAuth;
 	}
 
 }

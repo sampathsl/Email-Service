@@ -4,13 +4,16 @@
 
 package com.lyke.email.service.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Base64;
-import java.util.Date;
-import java.util.UUID;
-
-import javax.validation.Valid;
-
+import com.lyke.email.service.adapter.*;
+import com.lyke.email.service.dao.service.EmailDAOService;
+import com.lyke.email.service.domain.EmailServiceAuth;
+import com.lyke.email.service.dto.AuthCodeDTO;
+import com.lyke.email.service.dto.EmailDTO;
+import com.lyke.email.service.dto.EmailSentStatusDTO;
+import com.lyke.email.service.dto.EmailServiceAuthDTO;
+import com.lyke.email.service.util.CustomErrorType;
+import com.lyke.email.service.util.EntityDTOMapper;
+import com.lyke.email.service.util.SessionAuthCollector;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,22 +24,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import com.lyke.email.service.adapter.AWSSesService;
-import com.lyke.email.service.adapter.MailGunService;
-import com.lyke.email.service.adapter.ManDrillService;
-import com.lyke.email.service.adapter.SendGridService;
-import com.lyke.email.service.adapter.ServiceProvider;
-import com.lyke.email.service.dao.service.EmailDAOService;
-import com.lyke.email.service.domain.EmailServiceAuth;
-import com.lyke.email.service.dto.AuthCodeDTO;
-import com.lyke.email.service.dto.EmailDTO;
-import com.lyke.email.service.dto.EmailSentStatusDTO;
-import com.lyke.email.service.dto.EmailServiceAuthDTO;
-import com.lyke.email.service.util.CustomErrorType;
-import com.lyke.email.service.util.EntityDTOMapper;
-import com.lyke.email.service.util.SessionAuthCollector;
+import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * @author SAMPATH
@@ -66,13 +59,12 @@ public class EmailServiceController {
 	/**
 	 * Verify client for email service access 
 	 * @param emailServiceAuthDTO
-	 * @param ucBuilder
 	 * @param errors
 	 * @return ResponseEntity
 	 * @throws UnsupportedEncodingException
 	 */
 
-	@RequestMapping(value = "/email-send/varify", method = RequestMethod.POST)
+	@RequestMapping(value = "/email-send/verify", method = RequestMethod.POST)
 	public ResponseEntity<?> sendEmailVarify(@Valid @RequestBody EmailServiceAuthDTO emailServiceAuthDTO,
 			Errors errors) throws UnsupportedEncodingException {
 
@@ -110,14 +102,12 @@ public class EmailServiceController {
 	/**
 	 * Email sending service
 	 * @param emailDTO
-	 * @param ucBuilder
 	 * @param errors
 	 * @return ResponseEntity
 	 */
 
 	@RequestMapping(value = "/email-send", method = RequestMethod.POST)
-	public ResponseEntity<?> sendEmail(@Valid @RequestBody EmailDTO emailDTO, UriComponentsBuilder ucBuilder,
-			Errors errors) {
+	public ResponseEntity<?> sendEmail(@Valid @RequestBody EmailDTO emailDTO, Errors errors) {
 
 		logger.info("IN sendEmail METHOD");
 

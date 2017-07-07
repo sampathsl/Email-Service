@@ -24,7 +24,7 @@ export class EmailService {
 
   verifySendEmail(authCode: AuthCode, checked: boolean) {
     if (checked) {
-      return this.http.post(this.mainURI + '/varify', authCode)
+      return this.http.post(this.mainURI + '/verify', authCode)
         .map(
           (response: Response) => {
             return response.json() ? response.json() : {};

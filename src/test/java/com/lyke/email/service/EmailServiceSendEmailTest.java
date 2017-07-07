@@ -1,12 +1,10 @@
 package com.lyke.email.service;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.lyke.email.service.dto.AuthCodeDTO;
+import com.lyke.email.service.dto.EmailDTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,12 +20,11 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.lyke.email.service.domain.EmailServiceAuth;
-import com.lyke.email.service.dto.AuthCodeDTO;
-import com.lyke.email.service.dto.EmailDTO;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -35,7 +32,7 @@ import com.lyke.email.service.dto.EmailDTO;
 public class EmailServiceSendEmailTest {
 
 	private ObjectMapper objectMapper = new ObjectMapper();
-	private final String URI1 = "/api/v1/email-send/varify";
+	private final String URI1 = "/api/v1/email-send/verify";
 	private final String URI2 = "/api/v1/email-send";
 
 	@Autowired
@@ -54,7 +51,7 @@ public class EmailServiceSendEmailTest {
 	public void adminCanCreateOrganization() throws Exception {
 
 		MvcResult result = this.mockMvc.perform(post(URI1).contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(getSampleClientEmailServiceAuthDTO()))
+				.content(objectMapper.writeValueAsString(new SampleEmailServiceAuthDTO().getEmailServiceAuth()))
 				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
 
 		Gson gson = new GsonBuilder().create();
@@ -65,14 +62,6 @@ public class EmailServiceSendEmailTest {
 						getSampleClientEmail(new String(authCodeDTO.getAuthCode().getBytes(), "UTF-8"))))
 				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 
-	}
-
-	private EmailServiceAuth getSampleClientEmailServiceAuthDTO() {
-		EmailServiceAuth emailServiceAuth = new EmailServiceAuth();
-		emailServiceAuth.setUserName("test");
-		emailServiceAuth.setKey("c3Nzc3NzYWFhYWFhYTEyMzQ1");
-		emailServiceAuth.setCreationDate(new Date());
-		return emailServiceAuth;
 	}
 
 	private EmailDTO getSampleClientEmail(String authCode) {
